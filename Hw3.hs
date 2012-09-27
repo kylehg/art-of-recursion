@@ -62,10 +62,10 @@ game4 = Node
 -- | A function that takes any Game as input and computes
 --   whether the first player to move can force a win.
 win :: Game -> Bool
--- Base: The player facing this choice cannot win.
+-- Base: No choices - you've lost.
 win (Node Lose) = False
--- Inductive: Either the game that's left is destined to lose or
--- another choice in the ChoiceList is destined to win.
+-- Inductive: Either picking this Choice makes the game destined
+-- to lose or another choice in the ChoiceList is destined to win.
 win (Node (Choice g cl)) = lose g || win (Node cl)
 
 
@@ -73,22 +73,23 @@ win (Node (Choice g cl)) = lose g || win (Node cl)
 --   first player to move is doomed to lose (assuming their opponent
 --   plays perfectly). Can be defined in terms of `win` (and vice versa).
 lose :: Game -> Bool
--- Base: The player facing this choice _must_ lose.
+-- Base: No choices - you've lost.
 lose (Node Lose) = True
--- Inductive: Either the game that's left is destined to win or
--- another choice in the ChoiceList is destined to lose.
-lose (Node (Choice g cl)) = win g || lose (Node cl)
+-- Inductive: Picking this Choice makes the game destined to win AND
+-- every other choice in the ChoiceList is destined to lose.
+lose (Node (Choice g cl)) = win g && lose (Node cl)
 
 
 test12 :: Test
 test12 = TestList [
   "win false example" ~: win game1 ~?= False,
   "win true example" ~: win game2 ~?= True,
-  "lose true example" ~: lose game1 ~?= True,
-  "lose false example" ~: lose game2 ~?= True,
-  "win true example 2" ~: win game3 ~?= True,
-  "lose true example 2" ~: lose game3 ~?= True
+  "ex3" ~: lose game1 ~?= True,
+  "ex4" ~: lose game2 ~?= False,
+  "ex5" ~: win game3 ~?= True,
+  "ex6" ~: lose game3 ~?= False
   ]
+-- TODO: More tests.
 
 
 -- Problem 13 -----------------------------------------------------------------
