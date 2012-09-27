@@ -35,13 +35,35 @@ game2 = Node (Choice (Node Lose) Lose)
 game3 :: Game
 game3 = Node (Choice (Node Lose) (Choice (Node Lose) Lose))
 
+game4 :: Game
+game4 = Node
+        (Choice
+         (Node Lose)
+         (Choice
+          (Node
+           (Choice (Node Lose) (Choice (Node Lose) Lose))
+          )
+          (Choice
+           (Node
+            (Choice
+             (Node
+              (Choice (Node Lose) Lose)
+             )
+             Lose
+            )
+           )
+           Lose
+          )
+         )
+        )
+
 
 -- Problem 12 -----------------------------------------------------------------
 -- | A function that takes any Game as input and computes
 --   whether the first player to move can force a win.
 win :: Game -> Bool
 -- Base: The player facing this choice cannot win.
-win (Node Lose) = False 
+win (Node Lose) = False
 -- Inductive: Either the game that's left is destined to lose or
 -- another choice in the ChoiceList is destined to win.
 win (Node (Choice g cl)) = lose g || win (Node cl)
@@ -94,7 +116,7 @@ nim x y = Node (choices x y) where
     | x == 0 && y == 0 = Lose
     | x == 0           = Choice (nim x (y-1)) (choices x (y-1))
     | y == 0           = Choice (nim (x-1) y) (choices (x-1) y)
-    | otherwise        = Choice (nim (x-1) y) 
+    | otherwise        = Choice (nim (x-1) y)
                          (Choice (nim x (y-1)) (choices x (y-1)))
 
 
@@ -103,23 +125,8 @@ doTests :: IO ()
 doTests = do
   _ <- runTestTT $ TestList [ test12 ]
   return ()
-  
+
 main :: IO ()
 main = do
   doTests
   return ()
-  
-  
-  -- Problem 10 (out of order)
--- First, we write a function that exemplifies induction on a list,
--- for clarity / consistency.
---trueForList :: (a -> Bool) -> [a] -> Bool
---trueForList pred (x:xs) = pred x && trueForList pred xs
---trueForList [] = False -- For Haskell purposes, we assume the empty
---                       -- list isn't empty.
-
--- Now we show an equivalent statement for games.
---trueForGame :: (ChoiceList -> Bool) -> Game -> Bool
---trueForGame Node cl = -- TODO
-
-
