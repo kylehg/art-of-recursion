@@ -103,9 +103,9 @@ test12 = TestList [
 -- | A function that takes as input the sizes x and y of the two piles,
 --   and outputs a Game representing the game of two-pile nim.
 nim :: Int -> Int -> Game
-nim x y = Node (choices x y) where
+nim a b = Node (choices a b) where
   choices :: Int -> Int -> ChoiceList
-  choices
+  choices x y
     -- Aside from finding it hard to reason about Haskell, this
     -- algorithm appears to me to be O(2^n). However, I believe with
     -- dyanmic programming (i.e., storing our `choices` results in a
