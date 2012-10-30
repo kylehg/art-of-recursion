@@ -1,3 +1,7 @@
+Art of Recursion PS 7
+=====================
+Author: Kyle Hardgrave (kyleh@seas)
+
 > {-# LANGUAGE GADTs #-}
 
 Recursive functions
@@ -29,8 +33,9 @@ TODO
 >         consAll m l = map ((:) m) (allHB l)
 > -- TODO: Fix 0 case
 
-4.
-TODO
+-- | 4.
+Without getting into the whole proof, it's not hard to see that, given
+how I wrote `allHB`, it will follow the same pattern as `h`.
 
 
 Structural recursion and folds
