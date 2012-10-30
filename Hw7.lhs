@@ -85,3 +85,7 @@ Structural recursion and folds
 > treeWidth :: BTree a -> Int
 > treeWidth t = snd $ foldt (\_ -> (0, 0)) f t where
 >   f (d1, w1) (d2, w2) = (1 + max d1 d2, maximum [(2 + d1 + d2), w1, w2])
+
+This looks god-awful, and in truth we could make it prettier by just
+calling `depth` instead of keeping track of `d1` and `d2` in a tuple.
+That's much less efficient, though.
