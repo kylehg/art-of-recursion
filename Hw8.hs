@@ -22,13 +22,13 @@ insert a (Node l x r) | a < x     = Node (insert a l) x r
                       | otherwise = Node l x r
 
 
--- | 6. Mergesort
+-- | 6. Mergesort: sort a list.
 mergesort :: Ord a => [a] -> [a]
-mergesort [] = []
+mergesort []  = []
 mergesort [a] = [a]
-mergesort as = merge (mergesort l') (mergesort r') where
+mergesort as  = merge (mergesort l') (mergesort r') where
   (l', r') = splitAt ((length as) `div` 2) as
-  merge [] r          = r
-  merge l []          = l
-  merge (l:ls) (r:rs) | l <= r    = l : merge ls (r:rs)
-                      | otherwise = r : merge (l:ls) rs
+  merge [] r                = r
+  merge l []                = l
+  merge l@(l0:ls) r@(r0:rs) | l0 <= r0  = l0 : merge ls r
+                            | otherwise = r0 : merge l rs
