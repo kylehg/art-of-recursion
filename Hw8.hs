@@ -1,4 +1,4 @@
--- Art of Recursion PS 7
+-- Art of Recursion PS 8
 -- Author: Kyle Hardgrave (kyleh@seas)
 
 {-# LANGUAGE GADTs #-}
