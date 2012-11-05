@@ -9,9 +9,9 @@ data BST a where
   Empty :: BST a
   Node  :: BST a -> a -> BST a -> BST a
 
-bstFold :: r -> (r -> a -> r -> r) -> BST a -> r
-bstFold e _ Empty        = e
-bstFold e f (Node l a r) = f (bstFold e f l) a (bstFold e f r)
+bstFold :: b -> (b -> a -> b -> b) -> BST a -> b
+bstFold b _ Empty        = b
+bstFold b f (Node l a r) = f (bstFold b f l) a (bstFold b f r)
 
 
 -- | 2. Insert a new value into a binary search tree.
