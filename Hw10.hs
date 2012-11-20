@@ -23,13 +23,28 @@ reverse = aux [] where
   aux l _      = l
 
 -- | 3. Tail-recursive version of Fibbonacci
-fib' 0 = 0
-fib' 1 = 1
-fib' n = fib' (n-1) + fib' (n-2)
-
+-- fib 0 = 0
+-- fib 1 = 1
+-- fib n = fib (n-1) + fib (n-2)
 fib :: Int -> Int
 fib = aux 0 1 where
   aux a b 0 = a
   aux a b 1 = b
   aux a b 2 = a + b
   aux a b c = aux b (a+b) (c-1)
+
+-- | 4. Convert `factTR` and `fib` to iterative programs.
+
+-- def fact(n):
+--   r = 1
+--   while n > 0:
+--     n -= 1
+--     r = r * n
+--   return r
+
+-- def fib(n):
+--   a, b = 0, 1
+--   while n > 2:
+--     n -= 1
+--     a, b = b, a+b
+--   return a + b
