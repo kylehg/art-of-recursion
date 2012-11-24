@@ -5,6 +5,8 @@ import Data.Array
 import Data.Ratio
 import Test.HUnit
 
+import Hw11Triangle
+
 
 
 data BTree a = E | B a (BTree a) (BTree a)
@@ -32,19 +34,12 @@ test2 :: Test
 test2 = (take 15 $ flatten cw) ~?= [1%1, 1%2, 2%1, 1%3, 3%2, 2%3, 3%1,
                                     1%4, 4%3, 3%5, 5%2, 2%5, 5%3, 3%4, 4%1]
 
--- Psuedocode
+-- Algorithm
 {-
-maxRoute :: [[Integer]] -> Integer
-maxRoute = undefined
-
-triangle = [[3],
-            [7, 4],
-            [2, 4, 6],
-            [8, 5, 9, 3]]
-toListOfArrays :: [[a]] -> [Array Integer Integer]
-toListOfArrays ll =
-test3 = maxRoute triangle ~?= 23
+maxTo[row, i] = max(maxTo[row-1, i-1], maxTo[row-1, i]) + row[i]
+maxOfLast = max for i in row of maxTo[lastRow, i]
 -}
+
 
 
 doTests :: IO ()
