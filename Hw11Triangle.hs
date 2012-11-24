@@ -1,6 +1,6 @@
 module Hw11Triangle where
 
-triangle :: [[Integer]]
+triangle :: [[Int]]
 triangle = [
   [59],
   [73, 41],
