@@ -35,6 +35,7 @@ test2 = (take 15 $ flatten cw) ~?= [1%1, 1%2, 2%1, 1%3, 3%2, 2%3, 3%1,
                                     1%4, 4%3, 3%5, 5%2, 2%5, 5%3, 3%4, 4%1]
 
 
+-- 3.
 -- Algorithm
 {-
 maxTo[row, i] = max(maxTo[row-1, i-1], maxTo[row-1, i]) + row[i]
@@ -69,6 +70,22 @@ maxPaths = array ((0, 0), (n, n)) vals where
 maxPath :: Int
 maxPath = maximum [maxPaths!(rn, j) | j <- [j0..jn]] where
   ((_, j0), (rn, jn)) = bounds maxPaths
+
+type Parent a = Maybe (PBTree a)
+data PBTree a = PE (Parent a)
+              | PB a (PBTree a) (PBTree a) (Parent a)
+              deriving (Show, Eq)
+
+linkParents :: BTree a -> PBTree a
+linkParents t = link (convert t) Nothing where
+  convert :: BTree a -> PBTree a
+  convert E         = PE Nothing
+  convert (B a l r) = PB a (convert l) (convert r) Nothing
+  link :: PBTree a -> Parent a -> PBTree a
+  link (PE ) p         = PE p
+  link t@(PB a l r _) p = PB a (link l $ Just t) (link r $ Just t) p
+  -- TODO: This isn't correct
+
 
 
 doTests :: IO ()
