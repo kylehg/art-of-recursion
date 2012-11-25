@@ -5,13 +5,15 @@ import Data.Array
 import Data.Ratio
 import Test.HUnit
 
-import Hw11Triangle
+import Hw11Triangle -- The data representation of the triangle to solve
 
 
 
+-- | A binary tree
 data BTree a = E | B a (BTree a) (BTree a)
              deriving (Show, Eq)
 
+-- | Test tree
 t1 :: BTree Integer
 t1 = B 4 (B 2 (B 1 E E) (B 3 E E)) (B 6 (B 5 E E) (B 7 E E))
 
@@ -35,7 +37,7 @@ test2 = (take 15 $ flatten cw) ~?= [1%1, 1%2, 2%1, 1%3, 3%2, 2%3, 3%1,
                                     1%4, 4%3, 3%5, 5%2, 2%5, 5%3, 3%4, 4%1]
 
 
--- 3.
+-- 3. Solve [Project Euler #67](http://projecteuler.net/problem=67)
 -- Algorithm
 {-
 maxTo[row, i] = max(maxTo[row-1, i-1], maxTo[row-1, i]) + row[i]
@@ -66,25 +68,25 @@ maxPaths = array ((0, 0), (n, n)) vals where
              | otherwise = error "Row was longer than its row index."
   (_, n) = bounds arr
 
--- | The max path down the triangle (simple max over the last row)
+-- | The max path down the triangle (simply max over the last row)
 maxPath :: Int
 maxPath = maximum [maxPaths!(rn, j) | j <- [j0..jn]] where
   ((_, j0), (rn, jn)) = bounds maxPaths
 
+
+-- A binary tree where each node has a pointer to its parent
 type Parent a = Maybe (PBTree a)
 data PBTree a = PE (Parent a)
               | PB a (PBTree a) (PBTree a) (Parent a)
               deriving (Show, Eq)
 
+
+-- | 4. Turn a normal binary tree into a PBTree with back links from 
+-- each node to its parent.
 linkParents :: BTree a -> PBTree a
-linkParents t = link (convert t) Nothing where
-  convert :: BTree a -> PBTree a
-  convert E         = PE Nothing
-  convert (B a l r) = PB a (convert l) (convert r) Nothing
-  link :: PBTree a -> Parent a -> PBTree a
-  link (PE ) p         = PE p
-  link t@(PB a l r _) p = PB a (link l $ Just t) (link r $ Just t) p
-  -- TODO: This isn't correct
+linkParents t = link t Nothing where
+  link E p         = PE p
+  link (B a l r) p = let t = PB a (link l $ Just t) (link r $ Just t) p in t
 
 
 
